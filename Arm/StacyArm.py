@@ -7,7 +7,6 @@ import Adafruit_PCA9685
 import ultra as pos
 from camera import Camera
 from LED import LED
-from threading import Thread
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(50)
@@ -111,8 +110,6 @@ def movearm():
 	verify()
 
 if __name__ == '__main__':
-	#global completed
-	#t1 = Thread(target=movearm)
 	led = LED()
 	init()
 	while 1:

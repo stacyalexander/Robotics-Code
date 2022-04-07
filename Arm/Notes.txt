@@ -1,2 +1,2 @@
-If software running need to run:
+If Adeept software running need to run:
 sudo killall python3
