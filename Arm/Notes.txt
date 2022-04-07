@@ -1,0 +1,2 @@
+If software running need to run:
+sudo killall python3
