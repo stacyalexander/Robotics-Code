@@ -1,2 +1,5 @@
 If Adeept software running need to run:
 sudo killall python3
+
+Then Run:
+sudo python3 StacyArm.py
