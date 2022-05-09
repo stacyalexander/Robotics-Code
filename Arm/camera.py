@@ -3,7 +3,7 @@ import cv2
 from base_camera import BaseCamera
 import numpy as np
 import matplotlib.pyplot as plt
-
+import time
 import csv
 
 colorUpper = np.array([255, 100, 100])
@@ -28,6 +28,8 @@ class Camera(BaseCamera):
 		for i in range(0,50): 
 		# read current frame  
 			_, img = camera.read() #Obtain images captured by the camera  
+			#print("Saving .jpg")
+			cv2.imwrite("filename.jpg", img)
 			hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  #Transfrom the images to HSV color space   
 			mask = cv2.inRange(hsv, colorLower, colorUpper) #Loop to detect the color based on the target color range in the HSV color space, and turn the color blocks into masks  
 			mask = cv2.erode(mask, None, iterations=2)  #Erode and diminish the small masks (hot pixels) in the image (eliminate small color blocks or hot pixels)  
@@ -51,10 +53,22 @@ class Camera(BaseCamera):
 				cv2.putText(img,'Target Detected',(40,60), font, 0.5,(255,255,255),1,cv2.LINE_AA) 
 				print('--------- Color object detected --------- ')
 				results_file.write("Detected, " + str(X) + " " + str(Y) + "\n")
+				# Testing Picture Saving
+				#img = cv2.imread('filename.jpg')
+				#filename = "./aquired/"
+				#filename += (str(int(time.time())))
+				#filename +=('.jpg')
+				#cv2.imwrite(filename, img)
 				aquired = True
 				results_file.close()
 				return 1
 			else:  
 				cv2.putText(img,'Target Detecting',(40,60), font, 0.5,(255,255,255),1,cv2.LINE_AA)  
+				# Testing Picture Saving
+				#img = cv2.imread('filename.jpg')
+				#filename = "./not_aquired/"
+				#filename += (str(int(time.time())))
+				#filename +=('.jpg')
+				#cv2.imwrite(filename, img)
 		results_file.close()
 		return 0
