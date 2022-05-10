@@ -139,23 +139,48 @@ def circle():
 	time.sleep(t)
 	move(speed_set, 'forward', 'left')
 	time.sleep(t)
-	#move(speed_set, 'backward', 'right')
-	#time.sleep(t)
+	move(speed_set, 'backward', 'right')
+	time.sleep(t)
 	#move(speed_set, 'forward', 'left')
 	#time.sleep(t)
 	motorStop()
 
-		
+def wiggle_back():
+	t = .075
+	move(speed_set, 'forward', 'left')
+	time.sleep(t)
+	move(speed_set, 'forward', 'right')
+	time.sleep(t)
+	motorStop()
+	
+def wiggle_fwd():
+	t = .075
+	move(speed_set, 'backward', 'left')
+	time.sleep(t)
+	move(speed_set, 'backward', 'right')
+	time.sleep(t)
+	motorStop()
+	
+def wiggle():
+	dist = pos.checkdist()
+	print(dist)
+	if dist < 0.1:
+		wiggle_back()
+	else:
+		wiggle_fwd()
 		
 def obst_avoid(i):
 	range_keep = 0.15 # Avoidance distance
 	dist = pos.checkdist()
-	print(dist)
+	#print(dist)
 	if dist > range_keep:
 		return True
 	else:
 		print('Automatic obstacle avoidance mode')
-		print("Current i value is: " + i)
+		while dist < range_keep:
+			motorStop()
+			wiggle_back()
+			dist = pos.checkdist()
 		return False
 		
 # --- END Stacy's Modifications ---
@@ -199,7 +224,7 @@ if __name__ == '__main__':
 			angle[i]=0
 			
 	try:
-		speed_set = 100     # rad/s
+		speed_set = 90     # rad/s
 		r=0.1
 		setup()
 		
@@ -229,15 +254,22 @@ if __name__ == '__main__':
 
 
 		# --- Stacy's Modifications ---
+		t1 = time.time()
 		while not aquired:
-				aquired = arm.runarm()
+			aquired = arm.runarm()
+			if not aquired:
+				res = time.time()-t1
+				#print(res)
+				if res > 18:
+					time.sleep(1)
+					t1 = time.time()
+					wiggle()
 		motorStop()
 		circle()
 		time.sleep(1)
 		angle.reverse()
 		times.reverse()
 		i = 0
-		print(str(len(times)))
 		for k in range(len(angle)):
 			t=times[i]
 			i += 1
