@@ -134,15 +134,22 @@ def circle():
 	# Stacy's Code to Circle 180 Degrees-ish
 	t = .4
 	move(speed_set, 'forward', 'left')
-	time.sleep(t)
+	time.sleep(2*t)
+	motorStop()
 	move(speed_set, 'backward', 'right')
 	time.sleep(t)
+	motorStop()
 	move(speed_set, 'forward', 'left')
-	time.sleep(t)
+	time.sleep(2*t)
+	motorStop()
 	move(speed_set, 'backward', 'right')
 	time.sleep(t)
-	#move(speed_set, 'forward', 'left')
-	#time.sleep(t)
+	motorStop()
+##	move(speed_set, 'forward', 'left')
+##	time.sleep(2*t)
+##	motorStop()
+##	move(speed_set, 'backward', 'left')
+##	time.sleep(t)
 	motorStop()
 
 def wiggle_back():
@@ -170,7 +177,7 @@ def wiggle():
 		wiggle_fwd()
 		
 def obst_avoid(i):
-	range_keep = 0.15 # Avoidance distance
+	range_keep = 0.1 # Avoidance distance
 	dist = pos.checkdist()
 	#print(dist)
 	if dist > range_keep:
@@ -178,8 +185,8 @@ def obst_avoid(i):
 	else:
 		print('Automatic obstacle avoidance mode')
 		while dist < range_keep:
-			motorStop()
-			wiggle_back()
+			#motorStop()
+			#wiggle_back()
 			dist = pos.checkdist()
 		return False
 		
@@ -224,7 +231,7 @@ if __name__ == '__main__':
 			angle[i]=0
 			
 	try:
-		speed_set = 90     # rad/s
+		speed_set = 100     # rad/s
 		r=0.1
 		setup()
 		
@@ -243,13 +250,13 @@ if __name__ == '__main__':
 			
 			if angle[k] >0:   # turn right
 							move(speed_set, 'backward', 'right')
-							time.sleep(t)
+							time.sleep(t/3)
 			elif angle[k] ==0:
 							move(speed_set, 'backward', 'no')
-							time.sleep(t)
+							time.sleep(t/2)
 			else:
 							move(speed_set, 'backward', 'left')
-							time.sleep(t)
+							time.sleep(t/2)
 		motorStop()
 
 
@@ -272,6 +279,7 @@ if __name__ == '__main__':
 		i = 0
 		for k in range(len(angle)):
 			t=times[i]
+			t = t/2
 			i += 1
 			obst_avoid(i)
 			if angle[k] >0:   # turn right
